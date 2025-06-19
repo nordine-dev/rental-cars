@@ -4,7 +4,7 @@ import { getBookings } from "../redux/actions/adminActions"; // Adjust this path
 
 export default function Bookings() {
   const dispatch = useDispatch();
-  const  state  = useSelector((state) => state.admin); 
+  const state = useSelector((state) => state.admin);
 
   useEffect(() => {
     dispatch(getBookings());
@@ -12,7 +12,7 @@ export default function Bookings() {
 
   return (
     <section className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-2xl font-bold text-red-600 mb-6">Client Orders</h2>
+      <h2 className="text-2xl font-bold text-red-600 mb-6">Client Bookins</h2>
 
       <div className="overflow-x-auto bg-white shadow-md rounded-xl">
         <table className="min-w-full text-sm text-gray-700">
@@ -39,8 +39,8 @@ export default function Bookings() {
                   <td className="px-4 py-2">{booking.full_name}</td>
                   <td className="px-4 py-2">{booking.phone}</td>
                   <td className="px-4 py-2">{booking.email}</td>
-                  <td className="px-4 py-2">{booking.pickup_date}</td>
-                  <td className="px-4 py-2">{booking.dropoff_date}</td>
+                  <td className="px-4 py-2">{booking.pickup_date.split("T")[0]}</td>
+                  <td className="px-4 py-2">{booking.dropoff_date.split("T")[0]}</td>
                   <td className="px-4 py-2">{booking.total_days}</td>
                   <td className="px-4 py-2 font-semibold text-red-600">
                     {booking.total_price} DH

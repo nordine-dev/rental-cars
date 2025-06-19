@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import bcrypt from "bcrypt";
 export const addCar = async (req, res) => {
   const userId = req.userId;
 
@@ -92,6 +93,42 @@ export const getBookings = async (req, res) => {
       message: "Orders fetched successfully",
       bookings: result.rows,
     });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const userId = req.userId;
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) {
+    return res.status(400).json({ success: false, message: "Missing fields" });
+  }
+  try {
+    const user = await pool.query("SELECT * FROM users WHERE id = $1", [
+      userId,
+    ]);
+    if (user.rows.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+    const validPassword = await bcrypt.compare(
+      oldPassword,
+      user.rows[0].password
+    );
+    if (!validPassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Old password is incorrect" });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.query("UPDATE users SET password = $1 WHERE id = $2", [
+      hashedPassword,
+      userId,
+    ]);
+    res.json({ success: true, message: "Password changed successfully" });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ success: false, message: err.message });

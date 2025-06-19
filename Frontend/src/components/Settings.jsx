@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../redux/actions/adminActions";
 
 export default function Settings() {
+
+  const dispatch = useDispatch()
   const [form, setForm] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    current_password: "",
-    new_password: "",
+    oldPassword : "",
+    newPassword: "",
   });
 
   const handleChange = (e) =>
@@ -14,8 +15,7 @@ export default function Settings() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Settings submitted:", form);
-    // TODO: Send updated data to backend (via fetch/axios)
+    dispatch(changePassword(form))
   };
 
   return (
@@ -26,47 +26,7 @@ export default function Settings() {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-xl p-6 space-y-5"
       >
-        {/* Full Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Full Name</label>
-          <input
-            type="text"
-            name="full_name"
-            value={form.full_name}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-white/50 focus:outline-none focus:ring focus:ring-red-300"
-            placeholder="Enter your full name"
-          />
-        </div>
-
-        {/* Email */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-white/50 focus:outline-none focus:ring focus:ring-red-300"
-            placeholder="Enter your email"
-          />
-        </div>
-
-        {/* Phone */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Phone</label>
-          <input
-            type="tel"
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            className="w-full border rounded px-3 py-2 bg-white/50 focus:outline-none focus:ring focus:ring-red-300"
-            placeholder="+212 6 12 34 56 78"
-          />
-        </div>
-
-        <hr className="my-4" />
-
+        
         <h3 className="text-lg font-semibold text-gray-700">Change Password</h3>
 
         {/* Current Password */}
@@ -76,8 +36,8 @@ export default function Settings() {
           </label>
           <input
             type="password"
-            name="current_password"
-            value={form.current_password}
+            name="oldPassword"
+            value={form.oldPassword}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2 bg-white/50 focus:outline-none focus:ring focus:ring-red-300"
             placeholder="••••••••"
@@ -89,8 +49,8 @@ export default function Settings() {
           <label className="block text-sm font-medium mb-1">New Password</label>
           <input
             type="password"
-            name="new_password"
-            value={form.new_password}
+            name="newPassword"
+            value={form.newPassword}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2 bg-white/50 focus:outline-none focus:ring focus:ring-red-300"
             placeholder="••••••••"

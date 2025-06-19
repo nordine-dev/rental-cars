@@ -1,5 +1,6 @@
 import { toast } from "react-hot-toast";
 import api from "../../axios";
+
 export const addCar = (car) => {
   return async (dispatch) => {
     dispatch({
@@ -89,3 +90,33 @@ export const getBookings = () => {
     }
   };
 };
+
+export const changePassword = (form)=>{
+    return async (dispatch) => {
+        dispatch({
+            type: "LOADING_ADMIN",
+        });
+        try {
+            const response = await api.post("/admin/changePassword", form);
+            if (response.data.success === true) {
+                dispatch({
+                    type: "CHANGE_PASSWORD_SUCCESS",
+                });
+                toast.success(response.data.message);
+            } else {
+                dispatch({
+                    type: "CHANGE_PASSWORD_FAILURE",
+                });
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            const msg =
+                error.response?.data?.message || error.message || "Unexpected error"; 
+
+            dispatch({
+                type: "ADD_CAR_FAILURE",
+            });
+            toast.error(msg);
+        }
+    };
+}

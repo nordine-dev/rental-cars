@@ -50,6 +50,18 @@ export function adminReducer(state = initialState, action) {
           loading: false,
           isLogged: false,
         };
+        case "CHANGE_PASSWORD_SUCCESS":
+          return {
+            ...state,
+            loading: false,
+            isLogged: true,
+          };
+        case "CHANGE_PASSWORD_FAILURE":
+          return {
+            ...state,
+            loading: false,
+            isLogged: false,
+          };
       default:
         return state;
     }
