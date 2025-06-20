@@ -22,7 +22,7 @@ app.use(express.static("uploads"));
 app.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
-    res.json({ success: true, data: result.rows[0] });
+    res.json({ success: true,message: "Server is running", data: result.rows[0] });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
