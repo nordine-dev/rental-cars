@@ -81,13 +81,13 @@ export default function Footer() {
               Premium car rental services in Morocco. We provide a wide range of vehicles to suit your needs, from luxury sedans to rugged SUVs. Experience the road like never before.
             </p>
             <div className="flex space-x-4">
-              {socialIcons.map(({ Icon, href }, index) => (
+              {socialIcons.map((social, index) => (
                 <a 
                   key={index} 
-                  href={href} 
+                  href={social.href} 
                   className="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center border border-gray-800 hover:border-red-600 hover:text-red-600 transition-all group"
                 >
-                  <Icon size={18} className="group-hover:scale-110 transition-transform" />
+                  <social.Icon size={18} className="group-hover:scale-110 transition-transform" />
                 </a>
               ))}
             </div>
